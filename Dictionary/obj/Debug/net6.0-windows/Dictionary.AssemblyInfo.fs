@@ -10,7 +10,7 @@ open System.Reflection
 [<assembly: System.Reflection.AssemblyCompanyAttribute("Dictionary")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
-[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+43e01b5bca76e221a0ba0be91711a0cd95f02c66")>]
+[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d302fa9d775d9855a1dc69186a4b5360d1dc6f52")>]
 [<assembly: System.Reflection.AssemblyProductAttribute("Dictionary")>]
 [<assembly: System.Reflection.AssemblyTitleAttribute("Dictionary")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]
