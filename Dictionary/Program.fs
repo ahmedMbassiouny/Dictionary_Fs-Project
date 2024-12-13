@@ -1,4 +1,6 @@
 
 //firt test git
 module Program
-printfn "hi";;
+printfn "hello world";;
+printfn "hello world1";;
+printfn "hello world2";;
