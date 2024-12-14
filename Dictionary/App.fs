@@ -32,6 +32,23 @@ let main argv =
             MessageBox.Show("Please fill in both fields!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning) |> ignore
     )
     form.Controls.Add(btnAdd)
+    
+    let btnUpdate = new Button(Text = "Update", Top = 220, Left = 20, Width = 80)
+    btnUpdate.Click.Add(fun _ ->
+        if txtWord.Text <> "" && txtDefinition.Text <> "" then
+            let word = txtWord.Text.ToLower()
+            if dictionary.ContainsKey(word) then
+                dictionary <- dictionary.Add(word, txtDefinition.Text)
+                updateListBox listBox
+                MessageBox.Show("Word updated successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information) |> ignore
+                txtWord.Clear()
+                txtDefinition.Clear()
+            else
+                MessageBox.Show("Word not found! Use Add to create a new entry.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error) |> ignore
+        else
+            MessageBox.Show("Please fill in both fields!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning) |> ignore
+    )
+    form.Controls.Add(btnUpdate)
 
     
     let btnDelete = new Button(Text = "Delete", Top = 140, Left = 20, Width = 80)
