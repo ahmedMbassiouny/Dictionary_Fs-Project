@@ -16,5 +16,13 @@ let main argv =
 
     let listBox = new ListBox(Top = 20, Left = 250, Width = 300, Height = 300)
     form.Controls.Add(listBox)
+    
+
+    let btnSave = new Button(Text = "Save", Top = 220, Left = 20, Width = 80)
+    btnSave.Click.Add(fun _ ->
+        saveToFile "dictionary.json"
+        MessageBox.Show("Dictionary saved!") |> ignore
+    )
+    form.Controls.Add(btnSave)
 
     
