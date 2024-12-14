@@ -37,13 +37,18 @@ let main argv =
     let btnDelete = new Button(Text = "Delete", Top = 140, Left = 20, Width = 80)
     btnDelete.Click.Add(fun _ ->
         if txtWord.Text <> "" then
-            dictionary <- dictionary.Remove(txtWord.Text.ToLower())
-            updateListBox listBox
-            txtWord.Clear()
+            let word = txtWord.Text.ToLower()
+            if dictionary.ContainsKey(word) then
+                dictionary <- dictionary.Remove(word)
+                updateListBox listBox
+                txtWord.Clear()
+            else
+                MessageBox.Show("Word not found in the dictionary!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error) |> ignore
         else
             MessageBox.Show("Please enter a word to delete!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning) |> ignore
     )
     form.Controls.Add(btnDelete)
+
 
     let btnSearch = new Button(Text = "Search", Top = 180, Left = 20, Width = 80)
     btnSearch.Click.Add(fun _ ->
