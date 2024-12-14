@@ -24,5 +24,14 @@ let main argv =
         MessageBox.Show("Dictionary saved!") |> ignore
     )
     form.Controls.Add(btnSave)
+    
+
+    let btnLoad = new Button(Text = "Load", Top = 260, Left = 20, Width = 80)
+    btnLoad.Click.Add(fun _ ->
+        loadFromFile "dictionary.json"
+        updateListBox listBox
+        MessageBox.Show("Dictionary loaded!") |> ignore
+    )
+    form.Controls.Add(btnLoad)
 
     
