@@ -32,6 +32,34 @@ let main argv =
             MessageBox.Show("Please fill in both fields!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning) |> ignore
     )
     form.Controls.Add(btnAdd)
+
+    
+    let btnDelete = new Button(Text = "Delete", Top = 140, Left = 20, Width = 80)
+    btnDelete.Click.Add(fun _ ->
+        if txtWord.Text <> "" then
+            dictionary <- dictionary.Remove(txtWord.Text.ToLower())
+            updateListBox listBox
+            txtWord.Clear()
+        else
+            MessageBox.Show("Please enter a word to delete!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning) |> ignore
+    )
+    form.Controls.Add(btnDelete)
+
+    let btnSearch = new Button(Text = "Search", Top = 180, Left = 20, Width = 80)
+    btnSearch.Click.Add(fun _ ->
+        if txtWord.Text <> "" then
+            let searchResults =
+                dictionary
+                |> Map.filter (fun key _ -> key.Contains(txtWord.Text.ToLower()))
+            listBox.Items.Clear()
+            searchResults
+            |> Map.iter (fun word definition ->
+                listBox.Items.Add($"{word}: {definition}") |> ignore
+            )
+        else
+            MessageBox.Show("Please enter a word to search!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning) |> ignore
+    )
+    form.Controls.Add(btnSearch)
     
 
     let btnSave = new Button(Text = "Save", Top = 220, Left = 20, Width = 80)
