@@ -8,6 +8,8 @@
 
 	<ItemGroup>
 		<Compile Include="Program.fs" />
+		<Compile Include="UIHelpers.fs" />
+		<Compile Include="App.fs" />
 	</ItemGroup>
 
 	<ItemGroup>
