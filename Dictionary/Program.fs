@@ -34,3 +34,11 @@ let addWord (word: string) (definition: string): string =
     else
         dictionary <- dictionary.Add(word.ToLower(), definition)
         "Word added successfully."
+
+        
+let updateWord (word: string) (definition: string): string =
+    if dictionary.ContainsKey(word.ToLower()) then
+        dictionary <- dictionary.Add(word.ToLower(), definition)
+        "Word updated successfully."
+    else
+        "Word not found. Use the Add function to create it."
