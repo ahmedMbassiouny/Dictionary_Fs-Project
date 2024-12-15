@@ -58,22 +58,16 @@ let main argv =
     form.Controls.Add(btnDelete)
 
 
-    let btnSearch = new Button(Text = "Search", Top = 180, Left = 20, Width = 80)
+    let btnSearch = new Button(Text = "Search", Top = 220, Left = 20, Width = 80)
     btnSearch.Click.Add(fun _ ->
-        if txtWord.Text <> "" then
-            let searchResults =
-                dictionary
-                |> Map.filter (fun key _ -> key.Contains(txtWord.Text.ToLower()))
-            listBox.Items.Clear()
-            if searchResults |> Map.isEmpty then
-                MessageBox.Show("No matching words found!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information) |> ignore
-            else
-                searchResults
-                |> Map.iter (fun word definition ->
-                    listBox.Items.Add($"{word}: {definition}") |> ignore
-                )
+        if txtWord.Text = "" then
+            MessageBox.Show("Please enter a word to search.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning) |> ignore
         else
-            MessageBox.Show("Please enter a word to search!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning) |> ignore
+            let results = searchWord txtWord.Text
+            listBox.Items.Clear()
+            results |> Map.iter (fun word definition -> listBox.Items.Add($"{word}: {definition}") |> ignore)
+            if results.IsEmpty then
+                MessageBox.Show("No matching words found.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information) |> ignore
     )
     form.Controls.Add(btnSearch)
     
