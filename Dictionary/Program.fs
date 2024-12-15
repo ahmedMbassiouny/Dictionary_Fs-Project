@@ -26,3 +26,11 @@ let deleteWord (word: string): string =
 
 let searchWord (query: string): Map<string, string> =
     dictionary |> Map.filter (fun key _ -> key.Contains(query.ToLower()))
+
+
+let addWord (word: string) (definition: string): string =
+    if dictionary.ContainsKey(word.ToLower()) then
+        "Word already exists. Use the Update function."
+    else
+        dictionary <- dictionary.Add(word.ToLower(), definition)
+        "Word added successfully."
