@@ -17,3 +17,12 @@ let loadFromFile (filePath: string) =
         dictionary <- JsonSerializer.Deserialize<Dictionary>(jsonData)
     else
         failwith "File not found!"
+let deleteWord (word: string): string =
+    if dictionary.ContainsKey(word.ToLower()) then
+        dictionary <- dictionary.Remove(word.ToLower())
+        "Word deleted successfully."
+    else
+        "Word not found."
+
+let searchWord (query: string): Map<string, string> =
+    dictionary |> Map.filter (fun key _ -> key.Contains(query.ToLower()))
