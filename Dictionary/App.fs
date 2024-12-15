@@ -46,18 +46,14 @@ let main argv =
     form.Controls.Add(btnUpdate)
 
     
-    let btnDelete = new Button(Text = "Delete", Top = 140, Left = 20, Width = 80)
+    let btnDelete = new Button(Text = "Delete", Top = 180, Left = 20, Width = 80)
     btnDelete.Click.Add(fun _ ->
-        if txtWord.Text <> "" then
-            let word = txtWord.Text.ToLower()
-            if dictionary.ContainsKey(word) then
-                dictionary <- dictionary.Remove(word)
-                updateListBox listBox
-                txtWord.Clear()
-            else
-                MessageBox.Show("Word not found in the dictionary!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error) |> ignore
+        if txtWord.Text = "" then
+            MessageBox.Show("Please enter a word to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning) |> ignore
         else
-            MessageBox.Show("Please enter a word to delete!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning) |> ignore
+            let message = deleteWord txtWord.Text
+            MessageBox.Show(message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information) |> ignore
+            updateListBox listBox
     )
     form.Controls.Add(btnDelete)
 
