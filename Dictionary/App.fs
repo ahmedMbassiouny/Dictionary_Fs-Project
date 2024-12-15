@@ -1,3 +1,4 @@
+
 module App
 
 open System.Windows.Forms
@@ -17,75 +18,72 @@ let main argv =
     let listBox = new ListBox(Top = 20, Left = 250, Width = 300, Height = 300)
     form.Controls.Add(listBox)
 
+    // Add Button
     let btnAdd = new Button(Text = "Add", Top = 100, Left = 20, Width = 80)
     btnAdd.Click.Add(fun _ ->
-        if txtWord.Text <> "" && txtDefinition.Text <> "" then
-            let word = txtWord.Text.ToLower()
-            if dictionary.ContainsKey(word) then
-                MessageBox.Show("This word already exists! Use Update instead.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error) |> ignore
-            else
-                dictionary <- dictionary.Add(word, txtDefinition.Text)
-                updateListBox listBox
-                txtWord.Clear()
-                txtDefinition.Clear()
+        if txtWord.Text = "" || txtDefinition.Text = "" then
+            showMessage "Please enter both a word and a definition." "Warning"
         else
-            MessageBox.Show("Please fill in both fields!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning) |> ignore
+            let message = addWord txtWord.Text txtDefinition.Text
+            showMessage message "Info"
+            updateListBox listBox
     )
     form.Controls.Add(btnAdd)
 
-    
+    // Update Button
     let btnUpdate = new Button(Text = "Update", Top = 140, Left = 20, Width = 80)
     btnUpdate.Click.Add(fun _ ->
         if txtWord.Text = "" || txtDefinition.Text = "" then
-            MessageBox.Show("Please enter both a word and a new definition.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning) |> ignore
+            showMessage "Please enter both a word and a new definition." "Warning"
         else
             let message = updateWord txtWord.Text txtDefinition.Text
-            MessageBox.Show(message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information) |> ignore
+            showMessage message "Info"
             updateListBox listBox
     )
     form.Controls.Add(btnUpdate)
 
-    
+    // Delete Button
     let btnDelete = new Button(Text = "Delete", Top = 180, Left = 20, Width = 80)
     btnDelete.Click.Add(fun _ ->
         if txtWord.Text = "" then
-            MessageBox.Show("Please enter a word to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning) |> ignore
+            showMessage "Please enter a word to delete." "Warning"
         else
             let message = deleteWord txtWord.Text
-            MessageBox.Show(message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information) |> ignore
+            showMessage message "Info"
             updateListBox listBox
     )
     form.Controls.Add(btnDelete)
 
-
+    // Search Button
     let btnSearch = new Button(Text = "Search", Top = 220, Left = 20, Width = 80)
     btnSearch.Click.Add(fun _ ->
         if txtWord.Text = "" then
-            MessageBox.Show("Please enter a word to search.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning) |> ignore
+            showMessage "Please enter a word to search." "Warning"
         else
             let results = searchWord txtWord.Text
             listBox.Items.Clear()
             results |> Map.iter (fun word definition -> listBox.Items.Add($"{word}: {definition}") |> ignore)
             if results.IsEmpty then
-                MessageBox.Show("No matching words found.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information) |> ignore
+                showMessage "No matching words found." "Info"
     )
     form.Controls.Add(btnSearch)
-    
 
-    let btnSave = new Button(Text = "Save", Top = 220, Left = 20, Width = 80)
+    // Save Button
+    let btnSave = new Button(Text = "Save", Top = 260, Left = 20, Width = 80)
     btnSave.Click.Add(fun _ ->
         saveToFile "dictionary.json"
-        MessageBox.Show("Dictionary saved!") |> ignore
+        showMessage "Dictionary saved!" "Info"
     )
     form.Controls.Add(btnSave)
-    
 
-    let btnLoad = new Button(Text = "Load", Top = 260, Left = 20, Width = 80)
+    // Load Button
+    let btnLoad = new Button(Text = "Load", Top = 300, Left = 20, Width = 80)
     btnLoad.Click.Add(fun _ ->
         loadFromFile "dictionary.json"
         updateListBox listBox
-        MessageBox.Show("Dictionary loaded!") |> ignore
+        showMessage "Dictionary loaded!" "Info"
     )
     form.Controls.Add(btnLoad)
 
-    
+    Application.Run(form)
+    0
